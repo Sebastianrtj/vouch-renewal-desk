@@ -1,48 +1,102 @@
-# Renewal Desk — call version
+# Renewal Desk
 
-Sebastian’s preferred product demo is the Halcyon Labs case on port **5183**. It keeps one growing case, one current task, and a clear owner across the client manager, client, placement team, and carriers.
+**One renewal. One case that grows. One answer to who has the ball.**
 
-## Open for the call
+A working prototype of how AI could carry an insurance renewal from the 120-day alert to the client's decision, with a broker deciding at every point that counts.
 
-- [Presentation](http://localhost:5181/alex-renewal-discovery.html)
-- [Live presenter mode](http://localhost:5183/?present=1&scene=brief#/halcyon-labs)
-- [Normal product](http://localhost:5183/)
+**[Open the live demo](https://sebastianrtj.github.io/vouch-renewal-desk/#/halcyon-labs)** · [How it works](https://sebastianrtj.github.io/vouch-renewal-desk/#/how-it-works) · [Presenter mode](https://sebastianrtj.github.io/vouch-renewal-desk/?present=1&scene=brief#/halcyon-labs)
 
-**Run demo** in the deck opens this product. **Back to slides** returns to the exact slide. Presenter mode adds five scene shortcuts at the bottom. Each loads an explicit sample snapshot; you can then use the normal product controls. The shortcuts automatically select the client manager or placement role needed for that task. They do not appear in the normal product.
+![A scripted walkthrough: from the renewal brief to two comparable quotes](docs/walkthrough.gif)
 
-## Suggested five-minute walkthrough
+## The problem
 
-1. **Brief:** open the Orbis contract source. Explain what changed, why it matters, and why strategy approval stays with the broker. Approve the strategy to show the editable outreach.
-2. **Outreach:** send the sample email, skip ahead to Priya’s reply and call, then hand off the completed brief. Switch to placement when prompted.
-3. **Placement:** review the markets and submit. Skip ahead to carrier replies. Atlas’s question is answered from the existing call and application; comparison stays blocked until it is resolved.
-4. **Quotes:** compare limits, retention, and EU cover. Choose a quote and send the recommendation to Sam. Switching the default quote also updates the default explanatory note; broker edits are preserved.
-5. **Client decision:** edit the options email, send the sample options, and skip ahead to Priya’s choice. The chosen carrier and program totals follow the selection.
+A renewal today is eight steps across two teams, a client and several carriers, mostly in email. The client manager assembles the picture in their head. Placement gets a partial package and sends questions back. Carriers ask for things the client already said once. Nobody can see at a glance whose move it is.
 
-Use the scene bar if time is short or Alex asks about a later step. **Start the case again** resets the sample. Refresh loads the scene named in the URL.
+Renewal Desk is built on two ideas:
 
-## Relaunch
+1. **One case file.** Every email, document, call and carrier reply lands in one record, so nothing has to be asked twice.
+2. **The ball.** At any moment exactly one party has to act: the client manager, the client, placement, or the carriers. The marker moves; the work in front of you is always the one next thing.
+
+## What it does
+
+### Reads the file so the broker does not have to
+
+Before the first call, the brief shows what changed since the last renewal, why each change matters for cover, and the exact source behind it. The broker can open the evidence, dismiss a point that is wrong, and set the strategy per policy. Nothing is sent until they approve.
+
+![The renewal brief with a source open](docs/brief.png)
+
+### Answers the carrier from what is already known
+
+A carrier asks how many EU records the UK entity holds. The answer was given on the discovery call and again in the application. Placement sends it in one click. No email to the client manager, no email to the client.
+
+![A carrier question answered from the case file](docs/answer.png)
+
+### Puts every quote on the same terms
+
+Carriers format quotes differently. The comparison reads them into one table and marks where they differ. Placement picks, writes one line of reasoning, and hands the ball back.
+
+![Two quotes compared against the expiring policy](docs/quotes.png)
+
+### Keeps facts as facts
+
+Carrier appetite and response times are counted from placement history, not generated. The model summarizes; it does not invent a number.
+
+![Choosing markets from placement history](docs/markets.png)
+
+## Where AI belongs, and where it does not
+
+Rules where the answer must be the same every time. A model where the input is messy text. A person wherever the firm is giving advice.
+
+![Eight steps of the workflow, each marked rule, AI draft or person decides](docs/workflow.png)
+
+| Step today | In Renewal Desk | Kind |
+|---|---|---|
+| Renewal alert at 120 days | A date rule opens the case | Rule |
+| Build the picture, set a strategy | Sourced brief of what changed, a strategy per policy | AI drafts, person decides |
+| Outreach, application, discovery call | Drafted email, prefilled answers, call turned into confirmed facts | AI drafts |
+| Package to placement | A checklist blocks a partial handoff | Rule, AI drafts |
+| Choose markets | Appetite and timing from placement history | Rule, person decides |
+| Submit, then back and forth | Replies sorted into quote, decline or question; answered from the file when possible | AI drafts |
+| Quotes and declinations | One table on the same terms | AI drafts, person decides |
+| Present, client decides | Options drafted in plain language for the broker to edit | AI drafts, person decides |
+
+**What to build first:** the case file, then the change brief. The first is what everything else stands on. The second saves the most reading for the least risk.
+
+## Try it
+
+Play the Halcyon Labs case as the client manager, and switch to placement (top right) when the ball moves there. Worth trying:
+
+- Open a source on the brief, then mark it "Not right?"
+- Flip a policy from Renew to Remarket
+- Edit the outreach before sending
+- Uncheck a market and watch the replies, the comparison and the client email follow
+- Ask the case file a question in the side panel
+
+## What is real
+
+This is a front-end prototype. **Every client, carrier, quote, email and document is invented.** No model is called, nothing is sent, and no system is integrated; the briefs, drafts and answers are fixtures that show the intended behavior. Client and carrier replies are the buttons marked "Demo · skip ahead". The measures named on the How it works page are proposals, not results.
+
+Built as an interview exercise for Vouch. It is not a Vouch product and is not affiliated with or endorsed by Vouch. The wordmark and typefaces belong to Vouch; the typefaces load from vouch.us and are not stored in this repository.
+
+## Run it
 
 ```sh
-cd /Users/sebastian/Documents/ChatGPT/Vouch/tasks/renewal-desk
 npm install
-npm run present
+npm run dev
 ```
 
-This builds the product and presentation, starts their local servers, or reuses the existing Renewal Desk servers. Ctrl+C stops servers started by the command. For active development, `npm run dev` uses port 5183; stop the preview before switching because both use that port.
+Open http://localhost:5183.
 
-## Scope and verification
+## How it is built
 
-All clients, sources, applications, messages, appetite, quotes, and results are synthetic. Sending advances local UI state. There are no live AI, CRM, carrier, email, or binding integrations. The How it works cursor sequence is authored Stageshow animation, separate from the functional case controls. The technical architecture and evaluation slides describe a proposed build, not delivered integrations or measured results.
+React, TypeScript and Vite, with no backend.
 
-The existing design and motion are retained: rounded surfaces, moving ownership marker, expanding evidence, fading task handoffs, and smoothly changing card heights. Presenter navigation and press feedback use the same restrained easing. Reduced motion removes movement and the delayed card handoff.
+| File | What it holds |
+|---|---|
+| [`src/model.ts`](src/model.ts) | The case as a reducer: eleven steps, who has the ball at each, and every action |
+| [`src/Case.tsx`](src/Case.tsx) | Renders any state of the case |
+| [`src/Tour.tsx`](src/Tour.tsx) | The scripted walkthrough. It renders the same `Case` component, so it always shows the real screens |
+| [`src/How.tsx`](src/How.tsx) | The workflow page |
+| [`src/data.ts`](src/data.ts) | The sample case |
 
-Fresh-eye review found no urgent layout or motion defects in the final desktop/compact captures and sampled scene transitions. The quote table scrolls within its card on phones. A short recording is retained as `evidence/presenter-motion.mp4`; the 4fps contact sheet is a sampling check, not a frame-complete audit.
-
-```sh
-npm run build
-npm run check:presenter
-```
-
-The browser check exercises the complete case, source inspection, editable outreach, ownership changes, the carrier-question gate, alternate quote selection and note, client totals, presenter jumps, deck embedding, exact slide return, and 1440/698/390px layouts. Captures are in `evidence/presenter-*.png`. No production integration or general AI accuracy is verified.
-
-The requested inspiration sites, [Motion](https://motionin.design) and [Prompt Motion](https://prompt-motion.com), informed the restrained surface and navigation transitions. Stageshow’s upstream kit, licences, and notices remain under `src/kit/`.
+The walkthrough uses [Stageshow](https://github.com/benjitaylor/skills/tree/main/stageshow) (MIT), copied to `src/kit/` with its license and notices. It passes Stageshow's film gate; see [REHEARSAL.md](REHEARSAL.md).
